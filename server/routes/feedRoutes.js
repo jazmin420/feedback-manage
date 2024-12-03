@@ -1,8 +1,7 @@
 import express from "express";
 import jwtMiddleware from "../middlewares/jwtMiddleware.js";
 import {
-  submitFeedback,
-  handleUploadFiles,
+  submitFeedback, handleUploadFiles
 } from "../controllers/feedController.js";
 
 const router = express.Router();

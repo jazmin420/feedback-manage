@@ -1,21 +1,15 @@
 import Feedback from "../model/feedbackModel.js";
 import { errorHandler } from "../utilities/error.js";
-import multer from "multer";
-import path from "path";
+import { fileUploadUtil } from '../cloudinaryConfig.js';
+import { upload} from '../cloudinaryConfig.js'
 
-// Set up file storage configuration for multer
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "uploads/");
-  },
-  filename: (req, file, cb) => {
-    const uniqueName = `${Date.now()}-${file.originalname}`;
-    cb(null, uniqueName);
-  },
-});
 
-const upload = multer({ storage });
-export default upload;
+export const handleUploadFiles = upload.fields([
+  { name: "video", maxCount: 1 },
+  { name: "image", maxCount: 1 },
+  { name: "invoice", maxCount: 1 }
+]);
+
 
 // Handle feedback submission
 export const submitFeedback = async (req, res, next) => {
@@ -23,24 +17,22 @@ export const submitFeedback = async (req, res, next) => {
     const { username, mobileNumber, email, comment, emoji } = req.body;
 
     if (!username || !mobileNumber || !email || !comment || !emoji) {
-      return res.status(400).json({ message: "All fields are required." });
+      // return res.status(400).json({ message: "All fields are required." });
+      return next(errorHandler(401, "All fields are required."));
     }
 
-    // console.log(req.body);
-    // console.log(req.files);
+    //console.log('Starting file upload...');
 
-    //extract path
-    const video = req.files["video"]
-      ? `/uploads/${req.files["video"][0].filename}`
-      : null;
-    const image = req.files["image"]
-      ? `/uploads/${req.files["image"][0].filename}`
-      : null;
-    const invoice = req.files["invoice"]
-      ? `/uploads/${req.files["invoice"][0].filename}`
-      : null;
+     const video = req.files["video"] ? await fileUploadUtil(req.files["video"][0].buffer) : null;
+     //console.log('Video uploaded:', video);
 
-    // Create feedback entry
+     const image = req.files["image"] ? await fileUploadUtil(req.files["image"][0].buffer) : null;
+     //console.log('Image uploaded:', image);
+
+     const invoice = req.files["invoice"] ? await fileUploadUtil(req.files["invoice"][0].buffer) : null;
+     //console.log('Invoice uploaded:', invoice);
+
+    // Create feedback entry in the database
     const feedback = new Feedback({
       username,
       mobileNumber,
@@ -59,10 +51,3 @@ export const submitFeedback = async (req, res, next) => {
     next(error);
   }
 };
-
-// Middleware for handling file uploads (video, image, invoice)
-export const handleUploadFiles = upload.fields([
-  { name: "video", maxCount: 1 },
-  { name: "image", maxCount: 1 },
-  { name: "invoice", maxCount: 1 },
-]);

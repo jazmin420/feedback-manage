@@ -85,7 +85,7 @@ export const signin = async (req, res, next) => {
 };
 
 //sign out
-export const signout = (req, res, next) => {
-  res.clearCookie("access_token", { path: "/", httpOnly: true, secure: false });
+export const signout = (req, res) => {
+  res.clearCookie("access_token", { path: "/"});
   res.status(200).json({ success: true, message: "Signed out successfully!" });
 };
