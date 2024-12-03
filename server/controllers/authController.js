@@ -77,6 +77,7 @@ export const signin = async (req, res, next) => {
       .cookie("access_token", token, {
         httpOnly: true,
         secure: true,
+        sameSite: "None",
       })
       .json(rest);
   } catch (error) {
