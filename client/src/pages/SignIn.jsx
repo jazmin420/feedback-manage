@@ -47,9 +47,9 @@ function SignIn() {
 
       signIn(response.data.token);
 
-      Cookies.set("access_token", response.data.token, {
-        path: "/", 
-      });
+      // Cookies.set("access_token", response.data.token, {
+      //   path: "/", 
+      // });
 
       localStorage.setItem("currentUser", JSON.stringify(response.data));
 
