@@ -44,7 +44,7 @@ export const submitFeedback = async (req, res, next) => {
 
     await feedback.save();
 
-    res.status(201).json({ message: "Feedback submitted successfully!" });
+    res.status(201).json({ message: "Feedback submitted successfully!", feedback });
   } catch (error) {
     next(error);
   }
