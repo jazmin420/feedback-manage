@@ -8,6 +8,7 @@ import AuthContext from "../context/AuthContext";
 
 function AdminDash() {
   const [feedbacks, setFeedbacks] = useState([]);
+  
   const navigate = useNavigate();
   const TABLE_HEAD = [
     "username",
@@ -24,7 +25,7 @@ function AdminDash() {
     const fetchFeedbacks = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/api/admin/feedbacks",
+          "https://feedback-management-o2f0.onrender.com/api/admin/feedbacks",
           {
             withCredentials: true,
           }
@@ -49,7 +50,7 @@ function AdminDash() {
 
       // Optionally, send the updated status to the backend
       await axios.put(
-        `http://localhost:3000/api/admin/feedbacks/${id}`,
+        `https://feedback-management-o2f0.onrender.com/api/admin/feedbacks/${id}`,
         { status: newStatus },
         {
           withCredentials: true,
@@ -64,7 +65,7 @@ function AdminDash() {
   const handleDeleteFeedback = async (id) => {
     try {
       // Send delete request to the backend
-      await axios.delete(`http://localhost:3000/api/admin/feedbacks/${id}`, {
+      await axios.delete(`https://feedback-management-o2f0.onrender.com/api/admin/feedbacks/${id}`, {
         withCredentials: true,
       });
 
@@ -81,8 +82,6 @@ function AdminDash() {
   const handleSignOut = () => {
     Cookies.remove("access_token", {
       path: "/",
-      httpOnly: true,
-      secure: false,
     });
     localStorage.removeItem("currentUser");
     signOut();
@@ -153,14 +152,14 @@ function AdminDash() {
                   <Typography
                     variant="small"
                     color="blue-gray"
-                    className="font-normal"
+                    className="font-normal line-clamp-4 w-[200px]"
                   >
                     {feedback.comment}
                     <span className="mr-2">{feedback.emoji}</span>
                   </Typography>
                 </td>
                 <td className="p-4">
-                  <div>
+                  <div className="max-w-[200px] truncate overflow-hidden whitespace-nowrap">
                     {feedback.invoice && (
                       <a
                         href={feedback.invoice}
@@ -181,6 +180,7 @@ function AdminDash() {
                     />
                     <Button
                       className="bg-red-600"
+                      size="sm"
                       onClick={() => handleDeleteFeedback(feedback._id)}
                     >
                       Delete

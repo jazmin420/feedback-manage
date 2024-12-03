@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 const FeedbackForm = () => {
   const [step, setStep] = useState(1);
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     username: "",
     mobileNumber: "",
@@ -67,6 +68,8 @@ const FeedbackForm = () => {
   }, []);
 
   const handleSubmit = async () => {
+setLoading(true)
+
     const data = new FormData();
 
     const currentUser = JSON.parse(localStorage.getItem("currentUser"));
@@ -95,7 +98,7 @@ const FeedbackForm = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/feedback/submit",
+        "https://feedback-management-o2f0.onrender.com/api/feedback/submit",
         data,
         {
           headers: {
@@ -105,11 +108,17 @@ const FeedbackForm = () => {
         }
       );
 
-      //console.log(response);
+      console.log(response);
 
       if (response.status === 201) {
         toast.success("Feedback submitted successfully!");
         resetForm();
+        setFormData({
+          ...formData,
+          video: response.data.video,
+          image: response.data.image,
+          invoice: response.data.invoice,
+        });
         setTimeout(() => {
           navigate("/thank-you");
         }, 1000);
@@ -117,6 +126,8 @@ const FeedbackForm = () => {
     } catch (error) {
       console.error("Error submitting feedback:", error);
       toast.error("An error occurred while submitting feedback.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -279,8 +290,8 @@ const FeedbackForm = () => {
           </div>
 
           <div className="flex items-center justify-center">
-            <Button onClick={handleSubmit} className="mt-4">
-              Submit
+            <Button disabled={loading} onClick={handleSubmit} className="mt-4">
+            {loading ? "Submitting..." : "Submit Feedback"}
             </Button>
           </div>
         </div>

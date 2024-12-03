@@ -9,6 +9,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const currentUser = localStorage.getItem("currentUser");
     const token = Cookies.get("access_token");
+    
     if (token && currentUser) {
       setIsAuthenticated(true);
     } else {
