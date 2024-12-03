@@ -6,6 +6,7 @@ import { Textarea } from "@material-tailwind/react";
 import EmojiRating from "./EmojiRating";
 import MediaUpload from "./MediaUpload";
 import { useNavigate } from "react-router-dom";
+import Cookies from 'js-cookie'
 
 const FeedbackForm = () => {
   const [step, setStep] = useState(1);
@@ -20,7 +21,7 @@ const FeedbackForm = () => {
     image: "",
     invoice: "",
   });
-  const [submitted, setSubmitted] = useState(false);
+
 
   const navigate = useNavigate();
 
@@ -69,19 +70,16 @@ const FeedbackForm = () => {
 
   const handleSubmit = async () => {
 setLoading(true)
+const token = Cookies.get("access_token");
 
     const data = new FormData();
 
-    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-
-    // Append text fields
     data.append("username", formData.username);
     data.append("mobileNumber", formData.mobileNumber);
     data.append("email", formData.email);
     data.append("comment", formData.comment);
     data.append("emoji", formData.emoji);
 
-    // Append files if available
     if (formData.video?.file) {
       data.append("video", formData.video.file);
     }
@@ -98,17 +96,17 @@ setLoading(true)
 
     try {
       const response = await axios.post(
-        "https://feedback-management-o2f0.onrender.com/api/feedback/submit",
+        "http://localhost:3000/api/feedback/submit",
         data,
         {
           headers: {
-            "Content-Type": "multipart/form-data",
+            "Authorization": `Bearer ${token}`  
           },
           withCredentials: true,
         }
       );
 
-      console.log(response);
+      //console.log(response);
 
       if (response.status === 201) {
         toast.success("Feedback submitted successfully!");
@@ -206,13 +204,18 @@ setLoading(true)
             value={formData.comment}
             onChange={handleInputChange}
           />
-          <EmojiRating handleEmojiSelect={handleEmojiSelect} />
+          <EmojiRating emoji={formData.emoji} handleEmojiSelect={handleEmojiSelect} />
         </div>
       )}
       {step === 3 && (
         <MediaUpload
           formData={formData}
           handleInputChange={handleInputChange}
+          filePreviews={{
+            videoPreview: formData.video?.preview,
+            imagePreview: formData.image?.preview,
+            invoicePreview: formData.invoice?.preview,
+          }}
         />
       )}
       {step === 4 && (

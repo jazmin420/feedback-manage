@@ -34,7 +34,7 @@ function SignUp() {
 
     try {
       const response = await axios.post(
-        "https://feedback-management-o2f0.onrender.com/api/auth/signup",
+        "http://localhost:3000/api/auth/signup",
         formData
       );
       toast.success("Registration successful!");

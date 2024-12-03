@@ -17,7 +17,6 @@ export const submitFeedback = async (req, res, next) => {
     const { username, mobileNumber, email, comment, emoji } = req.body;
 
     if (!username || !mobileNumber || !email || !comment || !emoji) {
-      // return res.status(400).json({ message: "All fields are required." });
       return next(errorHandler(401, "All fields are required."));
     }
 
@@ -32,7 +31,6 @@ export const submitFeedback = async (req, res, next) => {
      const invoice = req.files["invoice"] ? await fileUploadUtil(req.files["invoice"][0].buffer) : null;
      //console.log('Invoice uploaded:', invoice);
 
-    // Create feedback entry in the database
     const feedback = new Feedback({
       username,
       mobileNumber,

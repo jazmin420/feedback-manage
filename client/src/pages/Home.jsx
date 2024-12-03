@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 import FeedbackForm from "../components/FeedbackForm";
-import { Button } from "@material-tailwind/react";
-import AuthContext from "../context/AuthContext";
+import { Button } from "@material-tailwind/react"
 
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
@@ -11,12 +10,10 @@ function Home() {
 
   const navigate = useNavigate();
 
-  const { signOut } = useContext(AuthContext);
 
   const handleSignOut = () => {
-    Cookies.remove("access_token");
+    Cookies.remove('access_token');
     localStorage.removeItem("currentUser");
-    signOut();
     navigate("/sign-in");
   };
 

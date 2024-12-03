@@ -4,7 +4,7 @@ import FeedbackStatus from "../components/FeedbackStatus";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
-import AuthContext from "../context/AuthContext";
+
 
 function AdminDash() {
   const [feedbacks, setFeedbacks] = useState([]);
@@ -19,13 +19,12 @@ function AdminDash() {
     "actions",
   ];
 
-  const { signOut } = useContext(AuthContext);
 
   useEffect(() => {
     const fetchFeedbacks = async () => {
       try {
         const response = await axios.get(
-          "https://feedback-management-o2f0.onrender.com/api/admin/feedbacks",
+          "http://localhost:3000/api/admin/feedbacks",
           {
             withCredentials: true,
           }
@@ -41,16 +40,14 @@ function AdminDash() {
 
   const handleStatusChange = async (id, newStatus) => {
     try {
-      // Update status in the parent component's state (locally)
       setFeedbacks((prevFeedbacks) =>
         prevFeedbacks.map((feedback) =>
           feedback._id === id ? { ...feedback, status: newStatus } : feedback
         )
       );
 
-      // Optionally, send the updated status to the backend
       await axios.put(
-        `https://feedback-management-o2f0.onrender.com/api/admin/feedbacks/${id}`,
+        `http://localhost:3000/api/admin/feedbacks/${id}`,
         { status: newStatus },
         {
           withCredentials: true,
@@ -64,12 +61,11 @@ function AdminDash() {
 
   const handleDeleteFeedback = async (id) => {
     try {
-      // Send delete request to the backend
-      await axios.delete(`https://feedback-management-o2f0.onrender.com/api/admin/feedbacks/${id}`, {
+      // Send delete request
+      await axios.delete(`http://localhost:3000/api/admin/feedbacks/${id}`, {
         withCredentials: true,
       });
 
-      // Remove feedback from the state after successful deletion
       setFeedbacks((prevFeedbacks) =>
         prevFeedbacks.filter((feedback) => feedback._id !== id)
       );
@@ -84,7 +80,7 @@ function AdminDash() {
       path: "/",
     });
     localStorage.removeItem("currentUser");
-    signOut();
+  
     navigate("/sign-in");
   };
 

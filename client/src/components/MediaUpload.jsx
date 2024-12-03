@@ -1,13 +1,14 @@
 import React from "react";
 import { Input } from "@material-tailwind/react";
 
-function MediaUpload({ formData, handleInputChange }) {
+function MediaUpload({ handleInputChange }) {
   return (
     <>
       <div className="w-3/4 m-auto py-3">
         <h2 className="text-center mb-6 text-3xl text-gray-800 font-bold">
           Media Uploads
         </h2>
+        
         <div className="flex flex-col justify-center items-center gap-6">
           <Input
             label="Video"

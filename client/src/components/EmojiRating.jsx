@@ -1,7 +1,7 @@
 import { Button } from "@material-tailwind/react";
 import React, { useState } from "react";
 
-function EmojiRating({ handleEmojiSelect }) {
+function EmojiRating({ emoji, handleEmojiSelect }) {
   const [selected, setSelected] = useState("");
 
   const emojis = [

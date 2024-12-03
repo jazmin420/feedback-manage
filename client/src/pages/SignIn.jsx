@@ -10,8 +10,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import AuthContext from "../context/AuthContext";
-import Cookies from "js-cookie";
+
 
 function SignIn() {
   const [formData, setFormData] = useState({
@@ -20,7 +19,7 @@ function SignIn() {
   });
 
   const navigate = useNavigate();
-  const { signIn } = useContext(AuthContext);
+
 
   const handleChange = (e) => {
     setFormData({
@@ -36,7 +35,7 @@ function SignIn() {
 
     try {
       const response = await axios.post(
-        "https://feedback-management-o2f0.onrender.com/api/auth/signin",
+        "http://localhost:3000/api/auth/signin",
         formData,
         {
           withCredentials: true,
@@ -44,12 +43,6 @@ function SignIn() {
       );
 
       toast.success("Sign In successful!");
-
-      signIn(response.data.token);
-
-      // Cookies.set("access_token", response.data.token, {
-      //   path: "/", 
-      // });
 
       localStorage.setItem("currentUser", JSON.stringify(response.data));
 

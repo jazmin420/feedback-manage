@@ -7,7 +7,7 @@ function FeedbackStatus({ feedback, onStatusChange }) {
   const handleStatusChange = (event) => {
     const newStatus = event.target.value;
     setStatus(newStatus);
-    onStatusChange(feedback._id, newStatus); // Pass updated status to parent
+    onStatusChange(feedback._id, newStatus);
   };
 
   const getStatusBgColor = (status) => {
@@ -25,7 +25,6 @@ function FeedbackStatus({ feedback, onStatusChange }) {
   return (
     <>
       <div>
-        {/* Status Select Dropdown */}
         <select
           value={status}
           onChange={handleStatusChange}
