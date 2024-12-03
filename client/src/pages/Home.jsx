@@ -17,6 +17,7 @@ function Home() {
     navigate("/sign-in");
   };
 
+  
   return (
     <>
       <div className="p-6">

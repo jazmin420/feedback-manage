@@ -11,6 +11,7 @@ function EmojiRating({ emoji, handleEmojiSelect }) {
     { label: "Bad", emoji: "😞" },
     { label: "Terrible", emoji: "😡" },
   ];
+  
 
   const handleClick = (emoji) => {
     setSelected(emoji);

@@ -45,6 +45,7 @@ function SignUp() {
         password: "",
       });
 
+      
       setTimeout(() => {
         navigate("/sign-in");
       }, 1000);
