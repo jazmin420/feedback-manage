@@ -34,7 +34,7 @@ function SignUp() {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/auth/signup",
+        "https://feedback-management-o2f0.onrender.com/api/auth/signup",
         formData
       );
       toast.success("Registration successful!");
@@ -96,6 +96,7 @@ function SignUp() {
                 required
                 className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
               />
+              
               <Typography variant="h6" color="blue-gray">
                 Password
               </Typography>

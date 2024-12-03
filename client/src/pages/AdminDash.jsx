@@ -24,7 +24,7 @@ function AdminDash() {
     const fetchFeedbacks = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/api/admin/feedbacks",
+          "https://feedback-management-o2f0.onrender.com/api/admin/feedbacks",
           {
             withCredentials: true,
           }
@@ -47,7 +47,7 @@ function AdminDash() {
       );
 
       await axios.put(
-        `http://localhost:3000/api/admin/feedbacks/${id}`,
+        `https://feedback-management-o2f0.onrender.com/api/admin/feedbacks/${id}`,
         { status: newStatus },
         {
           withCredentials: true,
@@ -62,7 +62,7 @@ function AdminDash() {
   const handleDeleteFeedback = async (id) => {
     try {
       // Send delete request
-      await axios.delete(`http://localhost:3000/api/admin/feedbacks/${id}`, {
+      await axios.delete(`https://feedback-management-o2f0.onrender.com/api/admin/feedbacks/${id}`, {
         withCredentials: true,
       });
 
@@ -164,6 +164,7 @@ function AdminDash() {
                       >
                         {feedback.invoice}
                       </a>
+
                     )}
                   </div>
                 </td>
